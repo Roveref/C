@@ -2,7 +2,7 @@
 
 multi_concurrent::multi_concurrent()
 {
-    for(int number=1;number<=12;++number)
+    for(int number=1;number<=4;++number)
         {
         QFuture<void> future = QtConcurrent::run(this,&multi_concurrent::aFunction1,number);
         }

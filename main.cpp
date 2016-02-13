@@ -1,3 +1,10 @@
+/*!
+ * \file main.cpp
+ * \brief main of the project
+ * \author Rovere Francois
+ * \version 0.1
+ */
+
 #include <access_server.h>
 #include <extract_html.h>
 #include <import_internet.h>
