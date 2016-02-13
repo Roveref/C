@@ -14,16 +14,18 @@ TEMPLATE = app
 
 # Input
 HEADERS += InteractionServer.h \
-           extract_html.h \
-           import_internet.h \
-           multi_concurrent.h \
-           multi_threading.h
+    TextExtraction.h \
+    WebCrawler.h \
+    ParallelThread.h \
+    ParallelConcurrent.h \
+    TestFunction.h
 SOURCES += InteractionServer.cpp \
-           extract_html.cpp \
-           import_internet.cpp \
            main.cpp \
-           multi_concurrent.cpp \
-           multi_threading.cpp
+    ParallelConcurrent.cpp \
+    ParallelThread.cpp \
+    WebCrawler.cpp \
+    TextExtraction.cpp \
+    TestFunction.cpp
 
 release: DESTDIR = /home/roveref/Software/build/release
 debug:   DESTDIR = /home/roveref/Software/build/debug

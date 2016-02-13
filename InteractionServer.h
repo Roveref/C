@@ -3,9 +3,8 @@
 
 /*!
  * \file InteractionServer.h
- * \brief Connection, reading, writing and disconnection to MySQL database
  * \author Rovere Francois
- * \version 0.1
+ * \version 0.2
  */
 
 #include <QDebug>
@@ -13,11 +12,10 @@
 #include <QApplication>
 #include <QtSql>
 
-  /*! \class InteractionServer
-   * \brief Interaction with the MySql database
-   *
-   *  This class allows to connect, disconnect, and make all possible requests to the MySql database
-   */
+/*! \class InteractionServer
+ * \brief Interaction with the MySql database
+ *  This class allows to connect, disconnect, and make all possible requests to the MySql database
+ */
 class InteractionServer : public QObject
 {
     Q_OBJECT
@@ -85,6 +83,19 @@ public:
      */
     void anyTable(const QString &anyQuery);
 
+    /*!
+     *  \brief getm_queryResults
+     *  This function returns the rank-th value of the m_queryResults
+     *  \param rank : The position in the m_queryResults to get
+     */
+    QString getm_queryResults(const int &rank) const;
+
+    /*!
+     *  \brief getrankm_queryResults
+     *  This function returns the size of the m_queryResults
+     */
+    int getrankm_queryResults() const;
+
 private:
     QString m_serverName; /*!< The name of the server, like localhost */
     QString m_userName; /*!< The name of the user, like root */
@@ -95,6 +106,7 @@ private:
     QString m_output; /*!< A string for printing in terminal */
     QSqlQuery* m_query; /*!< An instance of SQL query */
     QString m_queryContent; /*!< A string with an SQL query */
+    QVector<QString> m_queryResults; /*!< A vector containing all the results of the query */
     int m_queryRecordCount; /*!< An int with the number of columns of the SQL Record */
     int m_querySize; /*!< An int with the number of lines of the SQL Record */
 

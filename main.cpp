@@ -6,34 +6,48 @@
  */
 
 #include <InteractionServer.h>
-#include <extract_html.h>
-#include <import_internet.h>
-#include <multi_concurrent.h>
-#include <multi_threading.h>
-#include <unistd.h>
+#include <ParallelConcurrent.h>
+#include <ParallelThread.h>
+#include <TestFunction.h>
+#include <TextExtraction.h>
+#include <WebCrawler.h>
 
 
 using namespace QtConcurrent;
-//using namespace std;
 
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
-    //srand(time(NULL));
 
-    //extraction_html extract;
-    //multi_concurrent multi;
 
-    //multi_threading* thread1[8];
+    /*ParallelConcurrent parallelConcurrent(7);*/
 
-    //int number(0);
-    //std::cin >> number;
-    /*std::vector<multi_threading*> db;
-    for(int num=1;num<=12;++num)
-        {
-        db.push_back(new multi_threading(num));
+    QString table[3] = {"www.lefigaro.fr", "www.yahoo.com","www.lemonde.fr"};
+    for(int i=0;i<1;i++)
+    {
+    TextExtraction* textExtraction = new TextExtraction(table[i]);
+    ParallelThread* thread = new ParallelThread(textExtraction);
     }
-    std::cout << "fini" << std::endl;*/
+
+    //TextExtraction* textExtraction = new TextExtraction();
+
+    /*InteractionServer* interactionServer = new InteractionServer("localhost","root","password29","questionnaire");
+    interactionServer->anyTable("SELECT general_ip FROM testdatabase");
+    qDebug() << interactionServer->getm_queryResults(3);
+    qDebug() << interactionServer->getrankm_queryResults();*/
+
+    /*QString table[3] = {"http://www.yahoo.com", "http://www.lefigaro.fr", "http://www.lemonde.fr"};
+    for(int i=0;i<3;i++)
+    {
+    WebCrawler* webCrawler = new WebCrawler(table[i]);
+    ParallelThread* thread = new ParallelThread(webCrawler);
+    }
+
+    for(int i=1;i<8;i++)
+    {
+    TestFunction* testFunction = new TestFunction(i);
+    ParallelThread* thread = new ParallelThread(testFunction);
+    }
 
     InteractionServer* interactionServer = new InteractionServer("localhost","root","password29");
     interactionServer->selectDatabase("questionnaire");
@@ -41,7 +55,7 @@ int main(int argc, char **argv)
     interactionServer->readTable("testdatabase","general_sex = 'male'");
     interactionServer->writeTable("testdatabase","'male'","general_sex");
     interactionServer->anyTable("INSERT INTO testdatabase (general_sex) VALUES ('female')");
-    delete interactionServer;
+    delete interactionServer;*/
 
     //return app.exec();
 }

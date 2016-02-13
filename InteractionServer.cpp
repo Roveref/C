@@ -5,7 +5,7 @@ InteractionServer::InteractionServer()
 }
 
 InteractionServer::InteractionServer(const QString &serverName, const QString &userName, const QString &password)
-: m_serverName(serverName), m_userName(userName), m_password(password), m_serverType("QMYSQL")
+: m_serverName(serverName), m_userName(userName), m_password(password), m_serverType("QMYSQL"), m_queryResults(0)
 {
     m_server = QSqlDatabase::addDatabase(m_serverType);
     m_server.setConnectOptions();
@@ -16,7 +16,8 @@ InteractionServer::InteractionServer(const QString &serverName, const QString &u
 
 InteractionServer::InteractionServer(const QString &serverName, const QString &userName, const QString &password,
                                      const QString &databaseName)
-: m_serverName(serverName), m_userName(userName), m_password(password), m_databaseName(databaseName), m_serverType("QMYSQL")
+: m_serverName(serverName), m_userName(userName), m_password(password), m_databaseName(databaseName), m_serverType("QMYSQL"),
+  m_queryResults(0)
 {
     m_server = QSqlDatabase::addDatabase(m_serverType);
     m_server.setConnectOptions();
@@ -116,10 +117,25 @@ void InteractionServer::anyTable(const QString &anyQuery)
 {
     if(m_query->exec(anyQuery))
     {
+        while(m_query->next())
+        {
+            m_queryResults.append(m_query->value(0).toString());
+            qDebug() << m_queryResults;
+        }
         qDebug() << "Query successfully completed";
     }
     else
     {
         qDebug() << "Error of connection to the table =" << m_server.lastError().text();
     }
+}
+
+QString InteractionServer::getm_queryResults(const int &rank) const
+{
+     return m_queryResults[rank];
+}
+
+int InteractionServer::getrankm_queryResults() const
+{
+     return m_queryResults.size();
 }

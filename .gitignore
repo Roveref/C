@@ -17,3 +17,6 @@ moc_multi_threading.cpp
 moc_multi_threading.o
 multi_concurrent.o
 multi_threading.o
+/html
+/latex
+Doxyfile
