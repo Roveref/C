@@ -5,7 +5,7 @@
  * \version 0.1
  */
 
-#include <access_server.h>
+#include <InteractionServer.h>
 #include <extract_html.h>
 #include <import_internet.h>
 #include <multi_concurrent.h>
@@ -22,7 +22,7 @@ int main(int argc, char **argv)
     //srand(time(NULL));
 
     //extraction_html extract;
-    multi_concurrent multi;
+    //multi_concurrent multi;
 
     //multi_threading* thread1[8];
 
@@ -35,9 +35,14 @@ int main(int argc, char **argv)
     }
     std::cout << "fini" << std::endl;*/
 
-    access_server s;
-    s.read_database();
+    InteractionServer* interactionServer = new InteractionServer("localhost","root","password29");
+    interactionServer->selectDatabase("questionnaire");
+    interactionServer->readTable("testdatabase");
+    interactionServer->readTable("testdatabase","general_sex = 'male'");
+    interactionServer->writeTable("testdatabase","'male'","general_sex");
+    interactionServer->anyTable("INSERT INTO testdatabase (general_sex) VALUES ('female')");
+    delete interactionServer;
 
-    return app.exec();
+    //return app.exec();
 }
 

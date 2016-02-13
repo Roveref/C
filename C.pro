@@ -13,12 +13,12 @@ CONFIG += c++11
 TEMPLATE = app
 
 # Input
-HEADERS += access_server.h \
+HEADERS += InteractionServer.h \
            extract_html.h \
            import_internet.h \
            multi_concurrent.h \
            multi_threading.h
-SOURCES += access_server.cpp \
+SOURCES += InteractionServer.cpp \
            extract_html.cpp \
            import_internet.cpp \
            main.cpp \
