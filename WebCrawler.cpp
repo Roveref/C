@@ -1,5 +1,9 @@
 #include "WebCrawler.h"
 
+WebCrawler::WebCrawler()
+{
+}
+
 WebCrawler::WebCrawler(const QString &websiteAddress) : m_websiteAddress(websiteAddress)
 {
 }

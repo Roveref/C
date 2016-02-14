@@ -34,3 +34,6 @@ ParallelThread::ParallelThread(TextExtraction* textExtraction)
     this->start();
 }
 
+ParallelThread::~ParallelThread()
+{
+}

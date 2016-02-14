@@ -24,6 +24,8 @@ TextExtraction::~TextExtraction()
     m_fileDestination = 0;
     delete m_fileOriginContent;
     m_fileOriginContent = 0;
+    delete m_filesStack;
+    m_filesStack = 0;
 }
 
 void TextExtraction::process()

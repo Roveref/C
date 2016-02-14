@@ -1,64 +1,119 @@
 #ifndef TEXTEXTRACTION_H
 #define TEXTEXTRACTION_H
 
+/*!
+ * \file TextExtraction.h
+ * \author Rovere Francois
+ * \version 0.1
+ */
 
 #include <QDebug>
-#include <QThread>
-#include <QString>
 #include <QDir>
-#include <cstdlib>
-#include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <QTextStream>
-#include <fstream>
-#include <string>
-#include <dirent.h>
-#include <qtconcurrentrun.h>
-#include <QApplication>
-#include <QTextEdit>
+#include <QDirIterator>
 #include <QRegularExpression>
-#include <QRegularExpressionMatch>
-#include <QRegularExpressionMatchIterator>
 #include <QStack>
 #include <QFileDialog>
-#include <QDirIterator>
 
+/*! \class TextExtraction
+ * \brief This class allows to :
+ * - Select one Directory through a FileDialog box
+ * track all html files in the sub directories
+ * get the text situated between a regular expression
+ * write it in a new file with the same + .txt
+ * - Input directly a Directory,
+ * track all html files in the sub directories
+ * get the text situated between a regular expression
+ * write it in a new file with the same + .txt
+ */
 class TextExtraction : public QObject
 {
 
     Q_OBJECT
 
 public:
+    /*!
+     *  \brief Constructor 1
+     *  This Constructor lets the user to select one Directory via a FileDialog box
+     *  instances m_filesStack
+     *  appends .html in m_extensionFilter
+     *  tracks all files with the extension as defined in m_extensionFilter in the sub directories
+     *  gets the text situated between the regular expression as defined in m_regularExpression
+     *  writes it in a new file with the same name + .txt
+     */
     TextExtraction();
+
+    /*!
+     *  \brief Constructor 2
+     *  This Constructor lets the user input directly one Directory in attribute
+     *  instances m_filesStack
+     *  appends .html in m_extensionFilter
+     *  \param websiteAddress : The Directory to work on
+     */
     TextExtraction(const QString &websiteAddress);
+
+    /*!
+     *  \brief Destructor
+     *  This Destructor deletes all the dynamic memory allocations
+     */
     ~TextExtraction();
-    void findFilesRecursively();
+
+    /*!
+     *  \brief selectDirectory
+     *  This function opens a FileDialog box to select a Directory to put in m_rootDirectory
+     *  A filter is applied to m_rootDirectory to keep only the extension as defined in m_extensionFilter
+     */
     void selectDirectory();
+
+    /*!
+     *  \brief getDirectory();
+     *  This function gets the Directory from m_websiteAddress to put in m_rootDirectory
+     *  A filter is applied to m_rootDirectory to keep only the extension as defined in m_extensionFilter
+     */
     void getDirectory();
+
+    /*!
+     *  \brief findFilesRecursively
+     *  This function appends in m_filesStack all the files with the extension as defined in m_extensionFilter
+     *  in the subdirectories of m_rootDirectory
+     */
+    void findFilesRecursively();
+
+    /*!
+     *  \brief extractionHTMLToText
+     *  This function extracts from the top of the stack m_filesStack the text situated
+     *  between the regular expression as defined in m_regularExpression in m_fileOriginContent
+     *  writes it in a new file m_fileDestination with the name m_fileOrigin  + .txt
+     */
     void extractionHTMLToText();
 
 public slots:
+    /*!
+     *  \brief process
+     *  This slot launches the functions getDirectory(), findFilesRecursively() and extractionHTMLToText()
+     */
     void process();
 
 signals:
+    /*!
+     *  \brief finished
+     *  This signal indicates when the process is finished.
+     *  It causes the deletion of the ParallelThread in which it was enclosed.
+     */
     void finished();
 
 private:
-    QDir m_rootDirectory;
-    QStack<QString>* m_filesStack;
-    QFileDialog m_fileDialog;
-    QRegularExpressionMatchIterator m_regularExpressionMatchIterator;
-    QRegularExpressionMatch m_regularExpressionMatch;
-    QRegularExpression m_regularExpression;
-    QString m_filename;
-    QString m_textFile;
-    QString m_websiteAddress;
-    QStringList m_extensionFilter;
-    QFile* m_fileOrigin;
-    QFile* m_fileDestination;
-    QTextStream* m_fileOriginContent;
+    QDir m_rootDirectory; /*!< The Directory associated to m_websiteAddress */
+    QStack<QString>* m_filesStack; /*!< A Stack with the files ended with m_extensionFilter in the sub directories of m_rootDirectory*/
+    QFileDialog m_fileDialog; /*!< A FileDialog box to select m_rootDirectory */
+    QRegularExpressionMatchIterator m_regularExpressionMatchIterator; /*!< Match iterator of m_regularExpression */
+    QRegularExpressionMatch m_regularExpressionMatch; /*!< Match of m_regularExpression */
+    QRegularExpression m_regularExpression; /*!< The regular expression to work on */
+    QString m_textFile; /*!< A String corresponding to m_fileOriginContent to be used with a REGEX */
+    QString m_websiteAddress; /*!< The name of the website to extract, converted into a path with QDir */
+    QStringList m_extensionFilter; /*!< A filter to keep only specific files in the sub directories of m_rootDirectory */
+    QFile* m_fileOrigin; /*!< The origin file to extract with an extension as defined in m_extensionFilter, piled up in m_filesStack */
+    QFile* m_fileDestination; /*!< The destination file receiving the text between m_regularExpression of m_fileOrigin */
+    QTextStream* m_fileOriginContent; /*!< The Content of m_fileOrigin and to convert into m_textFile */
 };
-
 
 #endif // TEXTEXTRACTION_H
