@@ -35,7 +35,7 @@ public:
     ~TextExtraction();
     void findFilesRecursively();
     void selectDirectory();
-    void getDirectory(const QString &websiteAddress);
+    void getDirectory();
     void extractionHTMLToText();
 
 public slots:

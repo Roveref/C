@@ -20,23 +20,23 @@ int main(int argc, char **argv)
     QApplication app(argc, argv);
 
 
-    /*ParallelConcurrent parallelConcurrent(7);*/
+    /*ParallelConcurrent parallelConcurrent(1,"www.lefigaro.fr");
 
     QString table[3] = {"www.lefigaro.fr", "www.yahoo.com","www.lemonde.fr"};
-    for(int i=0;i<1;i++)
+    for(int i=0;i<3;i++)
     {
     TextExtraction* textExtraction = new TextExtraction(table[i]);
     ParallelThread* thread = new ParallelThread(textExtraction);
     }
 
-    //TextExtraction* textExtraction = new TextExtraction();
+    TextExtraction* textExtraction = new TextExtraction();
 
-    /*InteractionServer* interactionServer = new InteractionServer("localhost","root","password29","questionnaire");
+    InteractionServer* interactionServer = new InteractionServer("localhost","root","password29","questionnaire");
     interactionServer->anyTable("SELECT general_ip FROM testdatabase");
     qDebug() << interactionServer->getm_queryResults(3);
-    qDebug() << interactionServer->getrankm_queryResults();*/
+    qDebug() << interactionServer->getrankm_queryResults();
 
-    /*QString table[3] = {"http://www.yahoo.com", "http://www.lefigaro.fr", "http://www.lemonde.fr"};
+    QString table[3] = {"http://www.yahoo.com", "http://www.lefigaro.fr", "http://www.lemonde.fr"};
     for(int i=0;i<3;i++)
     {
     WebCrawler* webCrawler = new WebCrawler(table[i]);
@@ -57,6 +57,6 @@ int main(int argc, char **argv)
     interactionServer->anyTable("INSERT INTO testdatabase (general_sex) VALUES ('female')");
     delete interactionServer;*/
 
-    //return app.exec();
+    //return app.exec(); //Use with ParallelThread. Do not use with ParallelConcurrent.
 }
 

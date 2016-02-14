@@ -28,7 +28,7 @@ TextExtraction::~TextExtraction()
 
 void TextExtraction::process()
 {
-    getDirectory(m_websiteAddress);
+    getDirectory();
     findFilesRecursively();
     extractionHTMLToText();
 }
@@ -40,16 +40,14 @@ void TextExtraction::selectDirectory()
     if (m_fileDialog.exec() == QFileDialog::Accepted)
     {
         m_rootDirectory = QDir(m_fileDialog.selectedFiles().first());
-        qDebug() << m_fileDialog.selectedFiles().first();
         m_rootDirectory.setFilter(QDir::Files | QDir::Dirs | QDir::NoDot | QDir::NoDotDot);
         m_rootDirectory.setNameFilters(m_extensionFilter);
     }
 }
 
-void TextExtraction::getDirectory(const QString &websiteAddress)
+void TextExtraction::getDirectory()
 {
         m_rootDirectory = QDir("/home/roveref/Software/build/debug/" + m_websiteAddress);
-        qDebug() << "/home/roveref/Software/build/debug/" + m_websiteAddress;
         m_rootDirectory.setFilter(QDir::Files | QDir::Dirs | QDir::NoDot | QDir::NoDotDot);
         m_rootDirectory.setNameFilters(m_extensionFilter);
 }
@@ -59,13 +57,12 @@ void TextExtraction::findFilesRecursively()
     QDirIterator directoryIterator(m_rootDirectory, QDirIterator::Subdirectories);
     while(directoryIterator.hasNext()) {
         m_filesStack->push(directoryIterator.next());
-        qDebug() << directoryIterator.hasNext();
+        qDebug() << directoryIterator.next();
     }
 }
 
 void TextExtraction::extractionHTMLToText()
 {
-    qDebug() << m_filesStack->isEmpty();
     while (!m_filesStack->isEmpty())
         {
         m_fileOrigin = new QFile(m_filesStack->last());
@@ -90,5 +87,6 @@ void TextExtraction::extractionHTMLToText()
         m_fileDestination->close();
         m_filesStack->pop();
     }
+    emit finished();
 }
 

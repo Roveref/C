@@ -14,5 +14,6 @@ int WebCrawler::process()
     m_systemCommand = m_systemCommand.append(m_websiteAddress);
 
     return system(m_systemCommand.toStdString().c_str());
+    emit finished();
 }
 

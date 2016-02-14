@@ -4,34 +4,28 @@ ParallelConcurrent::ParallelConcurrent()
 {
 }
 
-ParallelConcurrent::ParallelConcurrent(const int &numberConcurrent) : m_numberConcurrent(numberConcurrent)
+ParallelConcurrent::ParallelConcurrent(const int &numberConcurrent)
 {
-    for(int i=1; i<=m_numberConcurrent; ++i)
+    for(int i=1; i<=numberConcurrent; ++i)
         {
-        QFuture<void> future = QtConcurrent::run(this,&ParallelConcurrent::testFunction,i);
+        m_testFunction = new TestFunction(i);
+        future = QtConcurrent::run(m_testFunction,&TestFunction::process);
         }
 }
 
-void ParallelConcurrent::testFunction(const int &numberConcurrent)
+ParallelConcurrent::ParallelConcurrent(const int &choiceSelection, const QString &websiteAddress)
 {
-    QElapsedTimer timer;
-    timer.start();
-
-    QString directory = "/home/roveref/Test" + QString::number(numberConcurrent) + ".txt" ;
-    QFile file(directory);
-
-    if (file.open(QIODevice::ReadWrite))
-    {
-        double writingNumber(0);
-        double exitCondition(2000000);
-        while(writingNumber<exitCondition)
+    if(choiceSelection == 0)
+        m_textExtraction = new TextExtraction();
+    else if(choiceSelection == 1)
         {
-            QTextStream stream(&file);
-            stream << writingNumber << endl;
-            ++writingNumber;
+        m_textExtraction = new TextExtraction(websiteAddress);
+        future = QtConcurrent::run(m_textExtraction,&TextExtraction::process);
         }
-    }
-    file.close();
-    qDebug() << "File " << numberConcurrent << " took:" << timer.elapsed() << "milliseconds";
 }
 
+ParallelConcurrent::ParallelConcurrent(const QString &websiteAddress)
+{
+        m_webCrawler = new WebCrawler(websiteAddress);
+        future = QtConcurrent::run(m_webCrawler,&WebCrawler::process);
+}
