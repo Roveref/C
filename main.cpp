@@ -11,7 +11,7 @@
 #include <TestFunction.h>
 #include <TextExtraction.h>
 #include <WebCrawler.h>
-
+#include "MainWindow.h"
 
 using namespace QtConcurrent;
 
@@ -49,14 +49,16 @@ int main(int argc, char **argv)
     ParallelThread* thread = new ParallelThread(testFunction);
     }
 
+
     InteractionServer* interactionServer = new InteractionServer("localhost","root","password29");
     interactionServer->selectDatabase("questionnaire");
     interactionServer->readTable("testdatabase");
     interactionServer->readTable("testdatabase","general_sex = 'male'");
     interactionServer->writeTable("testdatabase","'male'","general_sex");
-    interactionServer->anyTable("INSERT INTO testdatabase (general_sex) VALUES ('female')");
+    interactionServer->anyTable("SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE table_schema = 'questionnaire' AND table_name = 'testdatabase'");
     delete interactionServer;*/
 
-    //return app.exec(); //Use with ParallelThread. Do not use with ParallelConcurrent.
+
+    return app.exec(); //Use with ParallelThread. Do not use with ParallelConcurrent.
 }
 

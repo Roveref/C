@@ -5,6 +5,7 @@
 QT += concurrent widgets
 QT += sql
 QT += widgets
+QT += webkitwidgets
 
 CONFIG += console
 CONFIG -= app_bundle
@@ -34,3 +35,5 @@ OBJECTS_DIR = $$DESTDIR/.obj
 MOC_DIR = $$DESTDIR/.moc
 RCC_DIR = $$DESTDIR/.qrc
 UI_DIR = $$DESTDIR/.ui
+
+FORMS +=
