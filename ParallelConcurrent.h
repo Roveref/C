@@ -35,9 +35,10 @@ public:
      *  \brief
      *  This Constructor :
      *  - launches Concurrents on the testFunction.
-     *  \param numberConcurrent : The number of concurrents to launch.
+     *  \param numberConcurrent1 : A first batch of concurrents to launch.
+     *  \param numberConcurrent2 : A second batch of concurrents to launch.
      */
-    ParallelConcurrent(const int &numberConcurrent);
+    ParallelConcurrent(const int &numberConcurrent1, const int &numberConcurrent2);
 
     /*!
      *  \brief

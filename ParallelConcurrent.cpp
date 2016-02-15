@@ -4,9 +4,9 @@ ParallelConcurrent::ParallelConcurrent()
 {
 }
 
-ParallelConcurrent::ParallelConcurrent(const int &numberConcurrent)
+ParallelConcurrent::ParallelConcurrent(const int &numberConcurrent1,const int &numberConcurrent2)
 {
-    for(int i=1; i<=numberConcurrent; ++i)
+    for(int i=1; i<=numberConcurrent1 + numberConcurrent2; ++i)
         {
         m_testFunction = new TestFunction(i);
         m_future = QtConcurrent::run(m_testFunction,&TestFunction::process);
